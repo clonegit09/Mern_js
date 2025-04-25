@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resume Builder</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f2f2f2;
+        padding: 20px;
+      }
+      .form-container,
+      .resume {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        max-width: 600px;
+        margin: 20px auto;
+      }
+      label {
+        display: block;
+        margin-top: 10px;
+      }
+      input,
+      textarea {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      button {
+        margin-top: 15px;
+        padding: 10px;
+        background-color: #0066cc;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      .resume {
+        display: none;
+      }
+      .resume h2 {
+        text-align: center;
+        border-bottom: 2px solid #0066cc;
+        padding-bottom: 10px;
+      }
+      .resume-section {
+        margin-top: 15px;
+      }
+      .resume-section h3 {
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <h2>Build Your Resume</h2>
+      <form id="resumeForm">
+        <label>Full Name</label>
+        <input type="text" id="name" required />
+
+        <label>Email</label>
+        <input type="email" id="email" required />
+
+        <label>Phone</label>
+        <input type="text" id="phone" required />
+
+        <label>Skills (comma separated)</label>
+        <input type="text" id="skills" required />
+
+        <label>Education</label>
+        <textarea id="education" required></textarea>
+
+        <label>Experience</label>
+        <textarea id="experience" required></textarea>
+
+        <button type="submit">Generate Resume</button>
+      </form>
+    </div>
+
+    <div class="resume" id="resume">
+      <h2 id="resName"></h2>
+      <p>
+        <strong>Email:</strong> <span id="resEmail"></span> |
+        <strong>Phone:</strong> <span id="resPhone"></span>
+      </p>
+
+      <div class="resume-section">
+        <h3>Skills</h3>
+        <ul id="resSkills"></ul>
+      </div>
+
+      <div class="resume-section">
+        <h3>Education</h3>
+        <p id="resEducation"></p>
+      </div>
+
+      <div class="resume-section">
+        <h3>Experience</h3>
+        <p id="resExperience"></p>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("resumeForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          document.getElementById("resName").textContent =
+            document.getElementById("name").value;
+          document.getElementById("resEmail").textContent =
+            document.getElementById("email").value;
+          document.getElementById("resPhone").textContent =
+            document.getElementById("phone").value;
+
+          const skillsArray = document
+            .getElementById("skills")
+            .value.split(",");
+          const skillsList = document.getElementById("resSkills");
+          skillsList.innerHTML = "";
+          skillsArray.forEach((skill) => {
+            const li = document.createElement("li");
+            li.textContent = skill.trim();
+            skillsList.appendChild(li);
+          });
+
+          document.getElementById("resEducation").textContent =
+            document.getElementById("education").value;
+          document.getElementById("resExperience").textContent =
+            document.getElementById("experience").value;
+
+          document.getElementById("resume").style.display = "block";
+        });
+    </script>
+  </body>
+</html>
