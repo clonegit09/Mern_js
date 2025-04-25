@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marksheet Generator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f5f6fa;
+        padding: 20px;
+      }
+      .form-container,
+      .marksheet {
+        background: white;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        max-width: 900px;
+        margin: 20px auto;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h2,
+      h3 {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      label {
+        display: block;
+        margin: 10px 0 5px;
+      }
+      input,
+      textarea {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      button {
+        padding: 10px;
+        background-color: #0066cc;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+        font-weight: bold;
+      }
+      button:hover {
+        background-color: #004999;
+      }
+      .marksheet {
+        display: none;
+        background-image: url("/mnt/data/1.webp");
+        background-size: cover;
+        background-repeat: no-repeat;
+        color: #000;
+        padding-top: 40px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: rgba(255, 255, 255, 0.9);
+      }
+      th,
+      td {
+        border: 1px solid #888;
+        padding: 8px;
+        text-align: center;
+      }
+      th {
+        background-color: #e6e6e6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <h2>Student Marksheet Form</h2>
+      <form id="marksheetForm">
+        <label>Student Name</label>
+        <input type="text" id="studentName" required />
+
+        <label>Father's Name</label>
+        <input type="text" id="fatherName" required />
+
+        <label>Course</label>
+        <input type="text" id="course" required />
+
+        <label
+          >Subjects (format: subject,credits,grade,marks,practical-marks one per
+          line)</label
+        >
+        <textarea id="subjects" rows="6" required></textarea>
+
+        <button type="submit">Generate Marksheet</button>
+      </form>
+    </div>
+
+    <div class="marksheet" id="marksheet">
+      <h2>GRADE SHEET</h2>
+      <p><strong>Student Name:</strong> <span id="msName"></span></p>
+      <p><strong>Father's Name:</strong> <span id="msFather"></span></p>
+      <p><strong>Course:</strong> <span id="msCourse"></span></p>
+
+      <h3>Subject Details</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Credits</th>
+            <th>Grade</th>
+            <th>Marks</th>
+            <th>Practical Marks</th>
+          </tr>
+        </thead>
+        <tbody id="subjectList"></tbody>
+      </table>
+
+      <p><strong>Total Marks:</strong> <span id="totalMarks"></span></p>
+      <p>
+        <strong>Total Practical Marks:</strong>
+        <span id="totalPractical"></span>
+      </p>
+      <p><strong>Percentage:</strong> <span id="percent"></span>%</p>
+      <p><strong>CGPA:</strong> <span id="cgpa"></span></p>
+    </div>
+
+    <script>
+      document
+        .getElementById("marksheetForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const name = document.getElementById("studentName").value;
+          const father = document.getElementById("fatherName").value;
+          const course = document.getElementById("course").value;
+          const subjects = document
+            .getElementById("subjects")
+            .value.trim()
+            .split("\n");
+
+          document.getElementById("msName").textContent = name;
+          document.getElementById("msFather").textContent = father;
+          document.getElementById("msCourse").textContent = course;
+
+          const subjectList = document.getElementById("subjectList");
+          subjectList.innerHTML = "";
+
+          let totalMarks = 0;
+          let totalPractical = 0;
+          let totalSubjects = 0;
+          let gradePointSum = 0;
+
+          const gradeMap = { A: 10, B: 8, C: 6, D: 4, E: 2, F: 0 };
+
+          subjects.forEach((line) => {
+            const [sub, credits, grade, marks, practical] = line.split(",");
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+          <td>${sub}</td>
+          <td>${credits}</td>
+          <td>${grade}</td>
+          <td>${marks}</td>
+          <td>${practical}</td>
+        `;
+            subjectList.appendChild(tr);
+
+            totalMarks += parseInt(marks);
+            totalPractical += parseInt(practical);
+            gradePointSum +=
+              gradeMap[grade.trim().toUpperCase()] * parseInt(credits);
+            totalSubjects += parseInt(credits);
+          });
+
+          const percent = (totalMarks / (subjects.length * 100)) * 100;
+          const cgpa = (gradePointSum / totalSubjects).toFixed(2);
+
+          document.getElementById("totalMarks").textContent = totalMarks;
+          document.getElementById("totalPractical").textContent =
+            totalPractical;
+          document.getElementById("percent").textContent = percent.toFixed(2);
+          document.getElementById("cgpa").textContent = cgpa;
+
+          document.getElementById("marksheet").style.display = "block";
+        });
+    </script>
+  </body>
+</html>
