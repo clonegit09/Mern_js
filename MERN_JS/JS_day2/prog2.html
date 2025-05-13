@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS file</title>
+  </head>
+  <body>
+    <label for="number">enter a number</label>
+    <input type="number" name="" id="tb1" />
+    <button onclick="numTable()">run</button>
+
+    <script>
+      function numTable() {
+        let num = 5;
+        // document.getElementById("tb1").value;
+        for (let i = 1; i <= 10; i++) {
+          console.log(`${num} x ${i} = ${num * i}`);
+        }
+      }
+      //   function xyz() {
+      //     return a + b;
+      //   }
+      //   console.log(xyz(5, 10));
+      //   let z = xyz(9 + 10);
+      //   console.log(z);
+      //
+    </script>
+  </body>
+</html>

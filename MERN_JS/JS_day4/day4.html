@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <button onclick="test()">PAY</button>
+      <p id="parse"></p>
+    </div>
+    <script>
+      function test() {
+        let h = window.innerHeight;
+        let w = window.innerWidth;
+
+        let para = document.getElementById("parse");
+        para.innertext =
+          "Inner height of window:${H}, Inner width of window:${W}";
+      }
+    </script>
+  </body>
+</html>
